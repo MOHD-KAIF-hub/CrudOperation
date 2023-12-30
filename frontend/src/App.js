@@ -1,11 +1,11 @@
 import React from 'react'
-import InfoCategoryComponent from './components/InfoCategoryComponent'
 import './App.css'
+import Home from './components/Home'
 
 const App = () => {
   return (
     <div>
-      <InfoCategoryComponent/>
+      <Home/>
     </div>
   )
 }

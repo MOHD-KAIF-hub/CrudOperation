@@ -6,7 +6,7 @@ import AddCategoryComponent from './AddCategoryComponent';
 import SearchCategoryComponent from './SearchCategoryComponent';
 
 
-const InfoCategoryComponent = () => {
+const Home = () => {
   const [infoList, setInfoList] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedInfo, setSelectedInfo] = useState([]);
@@ -15,12 +15,12 @@ const InfoCategoryComponent = () => {
   const [searchResult, setSearchResult] = useState([]);
 
   useEffect(() => {
-    // Fetch info list from the API
+    // Fetching info by backend api
     axios.get('http://localhost:5000/api/getInfoList')
       .then(response => setInfoList(response.data))
       .catch(error => console.error('Error fetching info:', error));
 
-    // Fetch categories from the API
+    // Fetching  all categories from the backend api
     axios.get('http://localhost:5000/api/getCategories')
       .then(response => setCategories(response.data))
       .catch(error => console.error('Error fetching categories:', error));
@@ -29,7 +29,7 @@ const InfoCategoryComponent = () => {
   const handleAdd = () => {
     axios.post('http://localhost:5000/api/createInfo')
       .then(response => {
-        // Update the infoList state with the newly created info
+        // Updating the infoList state according to the newly created info
         setInfoList(prevInfoList => [...prevInfoList, response.data]);
       })
       .catch(error => console.error('Error creating info:', error));
@@ -44,30 +44,42 @@ const InfoCategoryComponent = () => {
     setSelectedInfo(updatedSelectedInfo);
   };
 
-  const handleAddCategory = () => {
-    // Create a new category and map selected info
-    axios.post('http://localhost:5000/api/createCategory', { name: newCategoryName, infoList: selectedInfo })
-      .then(response => {
-        setCategories([...categories, response.data]);
-        setInfoList(infoList.filter(info => !selectedInfo.includes(info._id)));
-        setSelectedInfo([]);
-        setNewCategoryName('');
-      })
-      .catch(error => console.error('Error creating category:', error));
+  const handleAddCategory = (newCategoryName) => {
+    // Checking if the category name already exists
+    const existingCategory = categories.find(category => category.name === newCategoryName); 
+      axios.post('http://localhost:5000/api/createCategory', { name: newCategoryName, infoList: selectedInfo })
+        .then(response => {
+          const newCategory = response.data;
+          if (existingCategory) {
+            setCategories([...categories]); 
+          }
+          else
+          {
+          setCategories([...categories, newCategory]); 
+          }
+          setInfoList(infoList.filter(info => !selectedInfo.includes(info._id)));
+          setSelectedInfo([]); 
+          setNewCategoryName('');
+        })
+        .catch(error => console.error('Error creating category:', error));
+
   };
 
+ 
+
 const handleSearchCategory = () => {
-  // Search info by category
+  // Searching info by category Name
   axios.get(`http://localhost:5000/api/searchInfoByCategory/${encodeURIComponent(searchCategory)}`)
     .then(response => {
       const result = response.data;
 
-      // Check if there are results
+      
       setSearchResult([]);
+      // Checking if there are results
       if (result.length > 0) {
         setSearchResult(result);
       } else {
-        // If no results found, set a custom message
+        // If no results found, setting a custom message
         setSearchResult([{ name: 'No list found' }]);
       }
     })
@@ -75,7 +87,6 @@ const handleSearchCategory = () => {
       console.error('Error searching info by category:', error);
            setSearchResult([]);
            setSearchResult([{ name: 'No list found' }]);
-      // Handle other errors if needed
     });
 };
 
@@ -83,33 +94,34 @@ const handleSearchCategory = () => {
   
 
   return (
-    <div className="container  h-[600px] mx-auto  mt-4 p-6 bg-gray-100 rounded-lg shadow-lg overflow-auto">
-   
-              <InfoListComponent
-          infoList={infoList}
-          selectedInfo={selectedInfo}
-          handleInfoCheckboxChange={handleInfoCheckboxChange}
-          handleAdd={handleAdd}
-        />
+    <div className="container flex flex-col mx-auto  mt-4 p-6 bg-gray-100 rounded-lg shadow-lg overflow-auto md:flex-row">
+   <div className='w-1/2'>
+   {/* Adding all components */}
+                    <InfoListComponent
+                infoList={infoList}
+                selectedInfo={selectedInfo}
+                handleInfoCheckboxChange={handleInfoCheckboxChange}
+                handleAdd={handleAdd}
+              />
 
 
             
-              <AddCategoryComponent
-          categories={categories}
-          selectedInfo={selectedInfo}
-          handleAddCategory={handleAddCategory}
-          handleInfoCheckboxChange={handleInfoCheckboxChange}
-        />
+                  <AddCategoryComponent
+              categories={categories}
+              handleAddCategory={handleAddCategory}
+            />
+    </div>
 
+      <div className='w-1/2'>
               <SearchCategoryComponent
                 searchCategory={searchCategory}
                 setSearchCategory={setSearchCategory}
                 searchResult={searchResult}
                 handleSearchCategory={handleSearchCategory}
               />
-
+              </div>
     </div>
   );
 };
 
-export default InfoCategoryComponent;
+export default Home;

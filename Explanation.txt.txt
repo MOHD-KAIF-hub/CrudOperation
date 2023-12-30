@@ -1,0 +1,9 @@
+All github and deployed link I am attaching here
+github:https://github.com/MOHD-KAIF-hub/CrudOperation
+Frontend:https://crud-list-info.netlify.app/
+Backend:https://crud-server-13tr.onrender.com
+
+Here I tried to create everything according to the given instruction if any modification required I am ready to fix it
+Firstly I created Info list,then there is option to add category by seleting some info list using map concept
+if category is already there it will push info-list which is not in the same category otherwise if category is not exist it will add and there is option to search info-list by category for responsiveness of the webpage I used Tailwindcss.
+Thankyou!!
