@@ -1,7 +1,8 @@
 All github and deployed link I am attaching here
 github:https://github.com/MOHD-KAIF-hub/CrudOperation
 Frontend:https://crud-list-info.netlify.app/
-Backend:https://crud-server-13tr.onrender.com
+Backend:https:https://crud-server-zxk0.onrender.com
+
 
 Here I tried to create everything according to the given instruction if any modification required I am ready to fix it
 Firstly I created Info list,then there is option to add category by seleting some info list using map concept
