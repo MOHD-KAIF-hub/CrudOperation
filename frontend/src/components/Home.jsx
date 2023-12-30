@@ -44,7 +44,7 @@ const Home = () => {
     setSelectedInfo(updatedSelectedInfo);
   };
 
-  const handleAddCategory = (newCategoryName) => {
+  const handleAddCategory = () => {
     // Checking if the category name already exists
     const existingCategory = categories.find(category => category.name === newCategoryName); 
       axios.post('http://localhost:5000/api/createCategory', { name: newCategoryName, infoList: selectedInfo })
@@ -108,7 +108,10 @@ const handleSearchCategory = () => {
             
                   <AddCategoryComponent
               categories={categories}
+              newCategoryName={newCategoryName}
+              setNewCategoryName={setNewCategoryName}
               handleAddCategory={handleAddCategory}
+
             />
     </div>
 

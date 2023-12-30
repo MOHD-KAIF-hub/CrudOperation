@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-const AddCategoryComponent = ({ categories, handleAddCategory }) => {
-  const [newCategoryName, setNewCategoryName] = useState('');
+const AddCategoryComponent = ({ categories,newCategoryName,setNewCategoryName,handleAddCategory }) => {
 
   return (
     <div className="mt-8 w-1/2 mx-auto">
@@ -17,7 +16,7 @@ const AddCategoryComponent = ({ categories, handleAddCategory }) => {
           className="mr-2 p-2 border border-gray-300 rounded"
         />
         <button onClick={()=>{ 
-          handleAddCategory(newCategoryName);
+          handleAddCategory();
           setNewCategoryName('');
           }} className="bg-blue-500 text-white cursor-pointer p-2 rounded md:gap-2 flex">
           <FontAwesomeIcon icon={faPlus} className='mt-1' /> Category
